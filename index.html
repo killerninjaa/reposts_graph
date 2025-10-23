@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Graph Visualization</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="category-selection">
+    <h1>Аналитический граф распространения новостей на платформе Telegram</h1>
+    <div id="category-hint">Выберите категории</div>
+    <div id="category-checkboxes">
+      <!-- Категории будут добавлены динамически -->
+    </div>
+    <button id="confirm-button">Подтвердить</button>
+  </div>
+  <div id="graph-container"></div>
+  <button id="reset-button" style="display: none;">Сбросить</button>
+  <div id="info-box" class="info-popup">
+    <button id="close-info-box" class="close-btn">&times;</button>
+    <div id="channel-info">
+      <p><strong>Канал:</strong> <span id="channel-name"></span></p>
+      <p><strong>Ссылка:</strong> <a href="#" id="channel-link" target="_blank"></a></p>
+      <p><strong>Подписчиков:</strong> <span id="participants"></span></p>
+      <p><strong>Тип:</strong> <span id="peer-type"></span></p>
+      <p><strong>Категория:</strong> <span id="category"></span></p>
+      <p><strong>Страна:</strong> <span id="country"></span></p>
+      <p><strong>Язык:</strong> <span id="language"></span></p>
+      <p><strong>РКН:</strong> <span id="rkn-status"></span></p>
+      <p><strong>Red Label:</strong> <span id="red-label"></span></p>
+      <p><strong>Black Label:</strong> <span id="black-label"></span></p>
+      <p><strong>Исходящих репостов:</strong> <span id="outgoing-count"></span></p>
+      <p><strong>Описание:</strong></p>
+      <div id="about-text" style="background: #f9f9f9; padding: 10px; border-radius: 6px; margin-top: 5px; font-size: 0.9em; white-space: pre-wrap;"></div>
+    </div>
+    <div id="reposts-container" style="display: none;">
+      <hr>
+      <p><strong>Входящие репосты:</strong></p>
+      <div class="reposts-scroll-wrapper">
+        <div id="reposts-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/main.js"></script>
+</body>
+</html>

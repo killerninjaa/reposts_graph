@@ -1,0 +1,272 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+  }
+  
+  #graph-container {
+    width: 100vw;
+    height: 100vh;
+    background: #f5f5f5;
+    visibility: hidden; /* Используем visibility вместо display: none; */
+    position: relative; /* Добавляем позиционирование */
+  }
+  
+  /* --- Блок выбора категорий --- */
+  #category-selection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+  }
+  
+  #category-selection h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  #category-hint {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #666;
+  }
+  
+  #category-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .category-checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .category-checkbox.selected {
+    background-color: #007bff;
+    border-color: #0056b3;
+    color: white;
+  }
+  
+  /* --- Инфо-окно --- */
+  .info-popup {
+    position: absolute;
+    display: none;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(10px);
+    color: #1a1a1a;
+    border-radius: 14px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    max-width: 420px;
+    max-height: 92vh;
+    flex-direction: column;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    transform: scale(0.97);
+    opacity: 0;
+    word-wrap: break-word;
+    z-index: 1000;
+  }
+  
+  .info-popup.visible {
+    display: flex !important;
+    transform: scale(1);
+    opacity: 1;
+  }
+  
+  .info-popup p {
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+  }
+  .info-popup p:last-child {
+    margin-bottom: 0;
+  }
+  .info-popup a {
+    color: #0066cc;
+    text-decoration: none;
+  }
+  .info-popup a:hover {
+    text-decoration: underline;
+  }
+  .info-popup hr {
+    border: none;
+    border-top: 1px solid #eaeaea;
+    margin: 16px 0;
+  }
+  
+  /* Кнопка закрытия */
+  .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 26px;
+    font-weight: normal;
+    color: #999;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.2s ease;
+  }
+  .close-btn:hover {
+    color: #333;
+  }
+  
+  /* Описание канала */
+  #about-text {
+    background: #f9f9f9;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 8px;
+    font-size: 0.9em;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    border: 1px solid #eee;
+    max-height: 100px; /* Максимальная высота описания */
+    overflow-y: scroll; /* Включаем вертикальную прокрутку */
+  }
+  
+  #channel-info {
+    min-height: 0;
+    overflow: hidden;
+  }
+  
+  #reposts-container {
+    min-height: 0;
+    overflow: hidden;
+  }
+  
+  /* --- Прокручиваемый блок репостов --- */
+  .reposts-scroll-wrapper {
+    max-height: 100px;
+    min-height: 50px;
+    overflow-y: scroll;
+    padding: 12px;
+    background: #fafafa;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    margin-top: 12px;
+    scrollbar-width: thin; /* Для Firefox */
+    scrollbar-color: #ccc #f1f1f1;
+  }
+  
+  /* Стилизация скроллбара (Chrome, Safari) */
+  .reposts-scroll-wrapper::-webkit-scrollbar {
+    width: 6px;
+  }
+  .reposts-scroll-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+  }
+  .reposts-scroll-wrapper::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+  }
+  .reposts-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+  }
+  
+  /* Элемент репоста */
+  .repost-item {
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background: #fff;
+    font-size: 0.9em;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    transition: box-shadow 0.2s ease;
+  }
+  .repost-item:hover {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  }
+  .repost-item p {
+    margin: 0 0 4px 0;
+    font-size: 0.95em;
+  }
+  
+  /* --- Стили для кнопок выбора категорий --- */
+  #confirm-button, #reset-button {
+    display: block;
+    width: 80%;
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  #confirm-button:hover, #reset-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* --- Стили для кнопки сброса --- */
+  #reset-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1001; /* Выше графа */
+  }
+  
+  /* --- Стили для категорий --- */
+  .category-checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .category-checkbox.selected {
+    background-color: #007bff;
+    border-color: #0056b3;
+    color: white;
+  }
+  
+  /* --- Стили для Sigma.js --- */
+  .sigma-node {
+    stroke-width: 1px;
+    stroke: #fff;
+    transition: all 0.2s ease;
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.1));
+  }
+  
+  .sigma-node:hover {
+    stroke-width: 2px;
+    stroke: #333;
+    transform: scale(1.1);
+  }
+  
+  .sigma-edge {
+    stroke-opacity: 0.85;
+    stroke-width: 1px;
+    transition: stroke-width 0.2s, stroke-opacity 0.2s;
+  }
+  
+  .sigma-edge:hover {
+    stroke-opacity: 1;
+    stroke-width: 2.5px;
+  }
